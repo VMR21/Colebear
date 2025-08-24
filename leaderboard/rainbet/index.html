@@ -230,103 +230,76 @@
                 font-size: 2rem;
             }
         }
-/* ===== TOP 3 PODIUM ===== */
+/* === PODIUM LAYOUT FIX: place SECOND • FIRST • THIRD === */
 .podium{
-  display:grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap:22px;
-  align-items:end;
-  margin: 16px 0 28px;
-}
-.podium-card{
-  position:relative;
-  padding:28px 20px 24px;
-  border-radius:18px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-  backdrop-filter: blur(4px);
-  border: 1px solid rgba(255,255,255,0.12);
-  box-shadow: 0 12px 26px rgba(0,0,0,.35);
-  text-align:center;
-  transform: translateY(0) scale(1);
-  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-}
-.podium-card:hover{
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 18px 38px rgba(0,0,0,.45);
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: center;
+  gap: 24px;
 }
 
-/* step heights */
-.podium-card[data-rank="1"]{ transform: translateY(-10px) scale(1.06); }
-.podium-card[data-rank="2"]{ transform: translateY(10px); }
+/* Re-order: 2nd (left), 1st (middle), 3rd (right) */
+.podium-card[data-rank="2"]{ order: 1; }
+.podium-card[data-rank="1"]{ order: 2; }
+.podium-card[data-rank="3"]{ order: 3; }
+
+/* Base sizing */
+.podium-card{
+  width: 280px;
+  min-height: 380px;
+}
+
+/* BIG center champion card */
+.podium-card[data-rank="1"]{
+  width: 340px;            /* wider */
+  min-height: 430px;       /* taller */
+  transform: translateY(-12px) scale(1.06);
+}
+
+/* side cards a bit lower */
+.podium-card[data-rank="2"]{ transform: translateY(12px); }
 .podium-card[data-rank="3"]{ transform: translateY(16px); }
 
-/* rank tints */
-.podium-card.gold  { border-color: rgba(255,215,0,.55);  box-shadow: 0 0 40px #ffd70044; }
-.podium-card.silver{ border-color: rgba(192,192,192,.55); box-shadow: 0 0 40px #c0c0c044; }
-.podium-card.bronze{ border-color: rgba(205,127,50,.55);  box-shadow: 0 0 40px #cd7f3244; }
+/* crown ONLY on #1 already handled by HTML; keep it centered */
+.podium-card[data-rank="1"] .crown{ width:26px; height:26px; }
 
-/* badge */
-.rank-badge{
-  position:absolute; top:-14px; left:50%; transform:translateX(-50%);
-  padding:6px 12px; border-radius:999px;
-  font-weight:800; letter-spacing:.5px; font-size:12px;
-  background:rgba(0,0,0,.55);
-  border:1px solid rgba(255,255,255,.18);
-  backdrop-filter: blur(6px);
-}
+/* make logo bigger on #1 */
+.podium-card[data-rank="1"] .logo-wrap{ width:110px; height:110px; }
 
-/* crown for #1 */
-.crown{
-  width:22px; height:22px;
-  position:absolute; top:-28px; left:50%;
-  transform:translateX(-50%) rotate(-6deg);
-  filter: drop-shadow(0 4px 8px rgba(0,0,0,.35));
-}
+/* slightly bigger username + reward on #1 */
+.podium-card[data-rank="1"] .podium-user{ font-size:20px; }
+.podium-card[data-rank="1"] .reward-pill{ padding:10px 16px; font-size:16px; }
 
-/* logo */
-.logo-wrap{
-  width:88px; height:88px; border-radius:16px;
-  margin:6px auto 14px; overflow:hidden;
-  border:1px solid rgba(255,255,255,.18);
-  background: radial-gradient(120% 120% at 50% 10%, rgba(255,255,255,.07), rgba(255,255,255,.02));
-}
+/* keep rank color themes */
+.podium-card.gold  { border-color: rgba(255,215,0,.55);  box-shadow: 0 0 42px #ffd70066; }
+.podium-card.silver{ border-color: rgba(192,192,192,.55); box-shadow: 0 0 40px #c0c0c066; }
+.podium-card.bronze{ border-color: rgba(205,127,50,.55);  box-shadow: 0 0 40px #cd7f3266; }
 
-/* username */
-.podium-user{
-  font-weight:800; font-size:18px;
-  white-space:nowrap; text-overflow:ellipsis; overflow:hidden;
-}
-
-/* wager + reward */
-.wager{ margin-top:8px; opacity:.9; font-size:14px; }
-.reward-pill{
-  display:inline-block; margin-top:12px; padding:8px 14px;
-  border-radius:999px; font-weight:900;
-  border:1px solid rgba(255,255,255,.18);
-  background: linear-gradient(90deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
-  box-shadow: inset 0 0 18px rgba(255,255,255,.06), 0 12px 22px rgba(0,0,0,.25);
-  position:relative; overflow:hidden;
-}
-
-/* shimmer */
-.reward-pill::after{
-  content:""; position:absolute; inset:0;
-  background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.25) 50%, transparent 100%);
-  transform: translateX(-120%);
-  animation: shimmer 2.8s infinite;
-}
-@keyframes shimmer{
-  0%{ transform: translateX(-120%); }
-  60%,100%{ transform: translateX(120%); }
-}
-
-/* mobile: stack podium */
+/* ===== Mobile (stacked, full width) ===== */
 @media (max-width: 768px){
-  .podium{ grid-template-columns: 1fr; }
-  .podium-card[data-rank="1"],
-  .podium-card[data-rank="2"],
-  .podium-card[data-rank="3"]{ transform:none; }
+  .podium{
+    grid-auto-flow: row;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  /* restore natural order when stacked: FIRST, SECOND, THIRD */
+  .podium-card[data-rank="1"]{ order: 1; }
+  .podium-card[data-rank="2"]{ order: 2; }
+  .podium-card[data-rank="3"]{ order: 3; }
+
+  .podium-card{
+    width: 100%;
+    max-width: 520px;
+    min-height: 0;
+    margin: 0 auto;
+    transform: none;
+  }
+  .podium-card[data-rank="1"] .logo-wrap{ width:96px; height:96px; }
+  .podium-card .logo-wrap{ width:88px; height:88px; }
+  .podium-card[data-rank="1"] .podium-user{ font-size:18px; }
+  .podium-card[data-rank="1"] .reward-pill{ padding:8px 14px; font-size:15px; }
 }
+
 
 
 </style>
