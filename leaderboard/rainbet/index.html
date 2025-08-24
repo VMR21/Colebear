@@ -230,152 +230,124 @@
                 font-size: 2rem;
             }
         }
-/* ===================== PODIUM (FULL) ===================== */
+/* =============== TOP 3 PODIUM (RESET & POLISH) =============== */
+
 /* container */
 #top3-cards.podium{
   display:grid;
-  grid-auto-flow: column;
+  grid-auto-flow:column;
   justify-content:center;
   align-items:end;
-  gap:24px;
-  margin:16px 0 28px;
+  gap:28px;
+  margin:18px 0 30px;
 }
 
 /* card */
 #top3-cards .podium-card{
   position:relative;
-  padding:28px 20px 24px;
-  border-radius:18px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-  backdrop-filter: blur(4px);
-  border: 1px solid rgba(255,255,255,0.12);
-  box-shadow: 0 12px 26px rgba(0,0,0,.35);
-  text-align:center;
-  width: 280px;            /* base width */
-  min-height: 380px;       /* base height */
-  transform: translateY(0) scale(1);
-  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-  overflow:hidden;
+  width:280px;                  /* base */
+  min-height:420px;
+  border-radius:22px;
+  background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 12px 28px rgba(0,0,0,.35);
+  transition:transform .22s ease, box-shadow .22s ease;
+  color:#fff;
+  overflow:visible;             /* so badge & crown can poke out */
 }
 #top3-cards .podium-card:hover{
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 18px 38px rgba(0,0,0,.45);
+  transform:translateY(-4px);
+  box-shadow:0 18px 40px rgba(0,0,0,.45);
 }
 
-/* order: 2nd (left), 1st (middle), 3rd (right) on desktop */
-#top3-cards .podium-card[data-rank="2"]{ order:1; transform: translateY(12px); }
+/* order on desktop: SECOND • FIRST • THIRD */
+#top3-cards .podium-card[data-rank="2"]{ order:1; transform:translateY(10px); }
 #top3-cards .podium-card[data-rank="1"]{ order:2; }
-#top3-cards .podium-card[data-rank="3"]{ order:3; transform: translateY(16px); }
+#top3-cards .podium-card[data-rank="3"]{ order:3; transform:translateY(16px); }
 
-/* sizes for champion (center) */
+/* champion larger */
 #top3-cards .podium-card[data-rank="1"]{
-  width: 340px;
-  min-height: 430px;
-  transform: translateY(-12px) scale(1.06);
+  width:360px;
+  min-height:470px;
+  box-shadow:0 0 60px 10px rgba(255,215,0,.08), 0 14px 32px rgba(0,0,0,.38);
 }
 
 /* rank tints */
-#top3-cards .podium-card.gold  { border-color: rgba(255,215,0,.55);  box-shadow: 0 0 42px #ffd70066; }
-#top3-cards .podium-card.silver{ border-color: rgba(192,192,192,.55); box-shadow: 0 0 40px #c0c0c066; }
-#top3-cards .podium-card.bronze{ border-color: rgba(205,127,50,.55);  box-shadow: 0 0 40px #cd7f3266; }
+#top3-cards .podium-card.gold  { border-color:rgba(255,215,0,.6);  box-shadow:0 0 44px rgba(255,215,0,.35); }
+#top3-cards .podium-card.silver{ border-color:rgba(192,192,192,.6); box-shadow:0 0 40px rgba(192,192,192,.25); }
+#top3-cards .podium-card.bronze{ border-color:rgba(205,127,50,.6);  box-shadow:0 0 40px rgba(205,127,50,.25); }
 
-/* badge (centered) */
-#top3-cards .rank-badge{
-  position:absolute; 
-  top:-14px; left:50%; transform:translateX(-50%);
-  padding:6px 12px; border-radius:999px;
+/* rank chip */
+#top3-cards .rank-chip{
+  position:absolute; top:-14px; left:50%; transform:translateX(-50%);
+  padding:7px 14px; border-radius:999px;
   font-weight:800; letter-spacing:.5px; font-size:12px;
   background:rgba(0,0,0,.55);
   border:1px solid rgba(255,255,255,.18);
-  backdrop-filter: blur(6px);
-  color:#fff;
+  backdrop-filter:blur(6px);
   z-index:2;
 }
 
 /* crown only on #1 */
 #top3-cards .crown{
-  width:22px; height:22px;
-  position:absolute; top:-28px; left:50%;
-  transform:translateX(-50%) rotate(-6deg);
-  filter: drop-shadow(0 4px 8px rgba(0,0,0,.35));
-  z-index:2;
+  position:absolute; top:-36px; left:50%; transform:translateX(-50%) rotate(-6deg);
+  width:28px; height:28px; filter:drop-shadow(0 4px 8px rgba(0,0,0,.35));
+  display:none;
 }
-#top3-cards .podium-card[data-rank="1"] .crown{ width:26px; height:26px; }
+#top3-cards .podium-card[data-rank="1"] .crown{ display:block; }
 
-/* logo box */
+/* inner layout */
+#top3-cards .card-body{
+  display:flex; flex-direction:column; align-items:center; gap:14px;
+  padding:42px 20px 22px;         /* top padding so chip/crown don’t overlap content */
+}
+
+/* logo */
 #top3-cards .logo-wrap{
-  width:88px; height:88px; 
-  border-radius:16px; 
-  margin:22px auto 14px;
-  overflow:hidden;
+  width:90px; height:90px; border-radius:18px;
   border:1px solid rgba(255,255,255,.18);
-  background: radial-gradient(120% 120% at 50% 10%, rgba(255,255,255,.07), rgba(255,255,255,.02));
+  background:radial-gradient(120% 120% at 50% 10%, rgba(255,255,255,.08), rgba(255,255,255,.02));
+  display:flex; align-items:center; justify-content:center;
 }
-#top3-cards .logo-wrap img{
-  display:block;
-  width:100%; height:100%;
-  object-fit:contain;             /* prevents the giant blown-up logo */
-}
-#top3-cards .podium-card[data-rank="1"] .logo-wrap{ width:110px; height:110px; }
+#top3-cards .logo-wrap img{ width:100%; height:100%; object-fit:contain; }
+#top3-cards .podium-card[data-rank="1"] .logo-wrap{ width:120px; height:120px; }
 
-/* username */
-#top3-cards .podium-user{
-  font-weight:800; font-size:18px;
-  white-space:nowrap; text-overflow:ellipsis; overflow:hidden;
-}
-#top3-cards .podium-card[data-rank="1"] .podium-user{ font-size:20px; }
+/* text */
+#top3-cards .user{ font-weight:800; font-size:20px; text-align:center; }
+#top3-cards .podium-card[data-rank="1"] .user{ font-size:22px; }
 
-/* wager + reward */
-#top3-cards .wager{ margin-top:8px; opacity:.9; font-size:14px; color:#fff; }
-#top3-cards .reward-pill{
-  display:inline-block; 
-  margin-top:12px; padding:8px 14px; 
-  border-radius:999px; font-weight:900; color:#fff;
-  border:1px solid rgba(255,255,255,.18);
-  background: linear-gradient(90deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
-  box-shadow: inset 0 0 18px rgba(255,255,255,.06), 0 12px 22px rgba(0,0,0,.25);
+/* wager row */
+#top3-cards .wager{
+  margin-top:6px; font-size:14px; opacity:.95; text-align:center;
+}
+#top3-cards .wager b{ display:block; font-size:18px; margin-top:2px; }
+
+/* reward pill */
+#top3-cards .reward{
+  margin-top:8px; padding:10px 18px; border-radius:999px; font-weight:900;
+  border:1px solid rgba(255,255,255,.18); color:#fff;
+  background:linear-gradient(90deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
+  box-shadow:inset 0 0 18px rgba(255,255,255,.06), 0 12px 22px rgba(0,0,0,.25);
   position:relative; overflow:hidden;
 }
-#top3-cards .reward-pill::after{
-  content:""; position:absolute; inset:0; 
-  background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.25) 50%, transparent 100%);
-  transform: translateX(-120%);
-  animation: shimmer 2.8s infinite;
+#top3-cards .reward::after{
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,.28) 50%, transparent 100%);
+  transform:translateX(-120%); animation:rewardShimmer 2.8s infinite;
 }
-#top3-cards .podium-card[data-rank="1"] .reward-pill{ padding:10px 16px; font-size:16px; }
+@keyframes rewardShimmer{ 0%{transform:translateX(-120%);} 60%,100%{transform:translateX(120%);} }
 
-@keyframes shimmer{ 
-  0%{ transform: translateX(-120%);} 
-  60%,100%{ transform: translateX(120%);} 
-}
-
-/* optional soft halo for champion */
-#top3-cards .podium-card[data-rank="1"]::before{
-  content:"";
-  position:absolute; inset:-14px;
-  border-radius:22px;
-  pointer-events:none;
-  box-shadow: 0 0 90px 20px rgba(255,215,0,.18);
-}
-
-/* ========== Mobile ========== */
+/* ======= Mobile ======= */
 @media (max-width: 768px){
-  #top3-cards.podium{
-    grid-auto-flow: row;
-    grid-template-columns: 1fr;
-    gap:16px;
-  }
-  /* natural order when stacked: FIRST → SECOND → THIRD */
-  #top3-cards .podium-card[data-rank="1"]{ order:1; transform:none; width:100%; max-width:520px; min-height:auto; margin:0 auto; }
-  #top3-cards .podium-card[data-rank="2"]{ order:2; transform:none; width:100%; max-width:520px; min-height:auto; margin:0 auto; }
-  #top3-cards .podium-card[data-rank="3"]{ order:3; transform:none; width:100%; max-width:520px; min-height:auto; margin:0 auto; }
-
-  #top3-cards .logo-wrap{ width:88px; height:88px; }
-  #top3-cards .podium-card[data-rank="1"] .logo-wrap{ width:96px; height:96px; }
-  #top3-cards .podium-card[data-rank="1"] .podium-user{ font-size:18px; }
-  #top3-cards .podium-card[data-rank="1"] .reward-pill{ padding:8px 14px; font-size:15px; }
+  #top3-cards.podium{ grid-auto-flow:row; grid-template-columns:1fr; gap:16px; }
+  #top3-cards .podium-card{ width:100%; max-width:560px; margin:0 auto; transform:none !important; }
+  /* stacked order: FIRST → SECOND → THIRD */
+  #top3-cards .podium-card[data-rank="1"]{ order:1; }
+  #top3-cards .podium-card[data-rank="2"]{ order:2; }
+  #top3-cards .podium-card[data-rank="3"]{ order:3; }
+  #top3-cards .podium-card[data-rank="1"]{ width:100%; }
+  #top3-cards .podium-card[data-rank="1"] .logo-wrap{ width:104px; height:104px; }
 }
-
 </style>
 </head>
 
@@ -622,43 +594,45 @@ async function loadLeaderboard(apiURL = CURRENT_API_URL){
   const rowsContainer = document.getElementById("leaderboard-rows");
   top3Container.innerHTML = '';
   rowsContainer.innerHTML = '';
-  top3Container.classList.add('podium'); // apply podium layout
+top3Container.classList.add('podium'); // ensure podium layout
 
-  data.forEach((entry, index) => {
-    const place = index + 1;
-    const reward = index < rewards.length ? `$ ${rewards[index]}` : '$ 0';
-    const wagered = `$ ${Number(entry.wagered).toLocaleString(undefined, {
-      minimumFractionDigits: 2, maximumFractionDigits: 2
-    })}`;
-    const username = entry.username;
+data.forEach((entry, index) => {
+  const place = index + 1;
+  const reward = index < rewards.length ? `$ ${rewards[index]}` : '$ 0';
+  const wagered = `$ ${Number(entry.wagered).toLocaleString(undefined, {
+    minimumFractionDigits: 2, maximumFractionDigits: 2
+  })}`;
+  const username = entry.username;
 
-    if (index < 3){
-      const ranks = ["gold","silver","bronze"];
-      const labels = ["#1 • FIRST", "#2 • SECOND", "#3 • THIRD"];
-      const cls = ranks[index];
+  if (index < 3) {
+    // GOLD (1), SILVER (2), BRONZE (3)
+    const classes = ["gold","silver","bronze"][index];
+    const labels  = ["#1 • FIRST","#2 • SECOND","#3 • THIRD"][index];
 
-      const card = document.createElement('div');
-      card.className = `podium-card ${cls}`;
-      card.dataset.rank = (index + 1).toString();
+    const card = document.createElement('div');
+    card.className = `podium-card ${classes}`;
+    card.dataset.rank = String(index + 1);
 
-      const crownSVG = `
-        <svg class="crown" viewBox="0 0 24 24" fill="#FFD700" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3 18h18l-1 3H4l-1-3Zm0-9 4 3 5-7 5 7 4-3v8H3v-8Z"/>
-        </svg>`;
+    const crown = `
+      <svg class="crown" viewBox="0 0 24 24" fill="#FFD700" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 18h18l-1 3H4l-1-3Zm0-9 4 3 5-7 5 7 4-3v8H3v-8Z"/>
+      </svg>
+    `;
 
-      card.innerHTML = `
-        ${index === 0 ? crownSVG : ""}
-        <div class="rank-badge">${labels[index]}</div>
-        <div class="logo-wrap">
-          <img src="${roobetLogo}" alt="logo" style="width:100%;height:100%;object-fit:cover;">
-        </div>
-        <div class="podium-user">${username}</div>
-        <div class="wager">Wagered:&nbsp;<b>${wagered}</b></div>
-        <div class="reward-pill">${reward}</div>
-      `;
-      top3Container.appendChild(card);
-      return;
-    }
+    card.innerHTML = `
+      ${index === 0 ? crown : ""}
+      <div class="rank-chip">${labels}</div>
+      <div class="card-body">
+        <div class="logo-wrap"><img src="${roobetLogo}" alt="logo"></div>
+        <div class="user">${username}</div>
+        <div class="wager">Wagered:<b>${wagered}</b></div>
+        <div class="reward">${reward}</div>
+      </div>
+    `;
+
+    top3Container.appendChild(card);
+    return;
+  }
 
     // rows for #4+
     const row = document.createElement('div');
