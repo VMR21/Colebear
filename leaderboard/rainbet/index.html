@@ -480,6 +480,27 @@
     0 0 12px rgba(0, 234, 255, 0.55),
     0 0 20px rgba(0, 234, 255, 0.35);
 }
+/* RESET any old glow/stroke that might be applied elsewhere */
+#top3-cards .wager,
+#top3-cards .wager b{
+  text-shadow: none !important;
+  filter: none !important;
+  -webkit-text-stroke: 0 !important;
+}
+
+/* Your intended colors (icy-blue label, white amount with soft cyan glow) */
+#top3-cards .wager{
+  color: #a5cfff !important;     /* label "Wagered:" */
+  font-weight: 600;
+}
+
+#top3-cards .wager b{
+  color: #ffffff !important;     /* amount */
+  font-weight: 700;
+  text-shadow:
+    0 0 6px rgba(0, 234, 255, 0.45),
+    0 0 12px rgba(0, 234, 255, 0.25);
+}
 
 </style>
 </head>
