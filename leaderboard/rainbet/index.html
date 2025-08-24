@@ -462,6 +462,24 @@
 #top3-cards.podium{ gap: 20px; margin: 12px 0 20px; }
 #top3-cards .podium-card{ width: 240px; min-height: 360px; }
 #top3-cards .podium-card[data-rank="1"]{ width: 300px; min-height: 410px; }
+/* === Wagered glow (icy blue) === */
+#top3-cards .wager{
+  margin-top: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #a5cfff; /* label color */
+  text-align: center;
+}
+
+#top3-cards .wager b{
+  color: #ffffff; /* actual number */
+  font-weight: 700;
+  font-size: 18px;
+  text-shadow:
+    0 0 6px rgba(0, 234, 255, 0.75),
+    0 0 12px rgba(0, 234, 255, 0.55),
+    0 0 20px rgba(0, 234, 255, 0.35);
+}
 
 </style>
 </head>
