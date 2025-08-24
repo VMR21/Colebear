@@ -348,6 +348,82 @@
   #top3-cards .podium-card[data-rank="1"]{ width:100%; }
   #top3-cards .podium-card[data-rank="1"] .logo-wrap{ width:104px; height:104px; }
 }
+/* === Compact podium sizing === */
+#top3-cards.podium{
+  gap:20px;                 /* smaller gap */
+  margin:12px 0 22px;
+}
+
+/* base cards a bit smaller */
+#top3-cards .podium-card{
+  width:240px;              /* was 280 */
+  min-height:360px;         /* was 420 */
+  border-radius:18px;
+}
+
+/* champion also smaller (still bigger than sides) */
+#top3-cards .podium-card[data-rank="1"]{
+  width:300px;              /* was 360 */
+  min-height:410px;         /* was 470 */
+}
+
+/* inner layout: consistent gaps so nothing overlaps */
+#top3-cards .card-body{
+  padding:38px 18px 18px;   /* slightly tighter */
+  gap:12px;                 /* controls vertical spacing; prevents collisions */
+}
+
+/* logo sizes down */
+#top3-cards .logo-wrap{ width:84px; height:84px; }
+#top3-cards .podium-card[data-rank="1"] .logo-wrap{ width:108px; height:108px; }
+
+/* username size down a touch */
+#top3-cards .user{ font-size:18px; }
+#top3-cards .podium-card[data-rank="1"] .user{ font-size:20px; }
+
+/* Wager block: keep on its own lines & reserve space */
+#top3-cards .wager{
+  width:100%;
+  margin-top:2px;
+  font-size:14px;
+  line-height:1.1;
+  text-align:center;
+  min-height:50px;          /* ensures the pill below never overlaps */
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+#top3-cards .wager b{
+  display:block;
+  margin-top:6px;
+  font-size:18px;           /* amount slightly larger */
+}
+
+/* Prize pill: smaller & always below wager block */
+#top3-cards .reward{
+  margin-top:4px;           /* sits under the reserved wager space */
+  padding:8px 14px;         /* was 10x18 */
+  font-size:14px;
+  position:static;          /* just in the flow (no overlap) */
+}
+
+/* badge/crown nudged for the new size */
+#top3-cards .rank-chip{ top:-12px; padding:6px 12px; font-size:11px; }
+#top3-cards .crown{ top:-32px; width:24px; height:24px; }
+
+/* optional: tone down champion halo so edges don't look like extra space */
+#top3-cards .podium-card[data-rank="1"]::before{
+  inset:-10px;              /* was -14 */
+  box-shadow:0 0 70px 16px rgba(255,215,0,.14);
+}
+
+/* Mobile still full-width and tidy */
+@media (max-width:768px){
+  #top3-cards .podium-card{ max-width:520px; }
+  #top3-cards .podium-card[data-rank="1"] .logo-wrap{ width:100px; height:100px; }
+}
+
 </style>
 </head>
 
