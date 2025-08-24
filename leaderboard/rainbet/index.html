@@ -230,6 +230,104 @@
                 font-size: 2rem;
             }
         }
+/* ===== TOP 3 PODIUM ===== */
+.podium{
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap:22px;
+  align-items:end;
+  margin: 16px 0 28px;
+}
+.podium-card{
+  position:relative;
+  padding:28px 20px 24px;
+  border-radius:18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 12px 26px rgba(0,0,0,.35);
+  text-align:center;
+  transform: translateY(0) scale(1);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.podium-card:hover{
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 18px 38px rgba(0,0,0,.45);
+}
+
+/* step heights */
+.podium-card[data-rank="1"]{ transform: translateY(-10px) scale(1.06); }
+.podium-card[data-rank="2"]{ transform: translateY(10px); }
+.podium-card[data-rank="3"]{ transform: translateY(16px); }
+
+/* rank tints */
+.podium-card.gold  { border-color: rgba(255,215,0,.55);  box-shadow: 0 0 40px #ffd70044; }
+.podium-card.silver{ border-color: rgba(192,192,192,.55); box-shadow: 0 0 40px #c0c0c044; }
+.podium-card.bronze{ border-color: rgba(205,127,50,.55);  box-shadow: 0 0 40px #cd7f3244; }
+
+/* badge */
+.rank-badge{
+  position:absolute; top:-14px; left:50%; transform:translateX(-50%);
+  padding:6px 12px; border-radius:999px;
+  font-weight:800; letter-spacing:.5px; font-size:12px;
+  background:rgba(0,0,0,.55);
+  border:1px solid rgba(255,255,255,.18);
+  backdrop-filter: blur(6px);
+}
+
+/* crown for #1 */
+.crown{
+  width:22px; height:22px;
+  position:absolute; top:-28px; left:50%;
+  transform:translateX(-50%) rotate(-6deg);
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,.35));
+}
+
+/* logo */
+.logo-wrap{
+  width:88px; height:88px; border-radius:16px;
+  margin:6px auto 14px; overflow:hidden;
+  border:1px solid rgba(255,255,255,.18);
+  background: radial-gradient(120% 120% at 50% 10%, rgba(255,255,255,.07), rgba(255,255,255,.02));
+}
+
+/* username */
+.podium-user{
+  font-weight:800; font-size:18px;
+  white-space:nowrap; text-overflow:ellipsis; overflow:hidden;
+}
+
+/* wager + reward */
+.wager{ margin-top:8px; opacity:.9; font-size:14px; }
+.reward-pill{
+  display:inline-block; margin-top:12px; padding:8px 14px;
+  border-radius:999px; font-weight:900;
+  border:1px solid rgba(255,255,255,.18);
+  background: linear-gradient(90deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
+  box-shadow: inset 0 0 18px rgba(255,255,255,.06), 0 12px 22px rgba(0,0,0,.25);
+  position:relative; overflow:hidden;
+}
+
+/* shimmer */
+.reward-pill::after{
+  content:""; position:absolute; inset:0;
+  background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.25) 50%, transparent 100%);
+  transform: translateX(-120%);
+  animation: shimmer 2.8s infinite;
+}
+@keyframes shimmer{
+  0%{ transform: translateX(-120%); }
+  60%,100%{ transform: translateX(120%); }
+}
+
+/* mobile: stack podium */
+@media (max-width: 768px){
+  .podium{ grid-template-columns: 1fr; }
+  .podium-card[data-rank="1"],
+  .podium-card[data-rank="2"],
+  .podium-card[data-rank="3"]{ transform:none; }
+}
+
 
 </style>
 </head>
@@ -440,103 +538,102 @@ const CURRENT_API_URL = 'https://colebeardata.onrender.com/leaderboard/top14';
 const PREVIOUS_API_URL = 'https://colebeardata.onrender.com/leaderboard/prev';
 const roobetLogo = '/assets/rainbetlogo.png';
 const rewards = [200, 500, 100, 50, 30, 25, 15, 10, 10, 10];
-const top3Glows = ['0 0 40px #C0C0C0', '0 0 40px #FFD700', '0 0 40px #CD7F32'];
 
-function updateCountdown() {
+function updateCountdown(){
   const el = document.getElementById("countdown");
   const now = new Date();
-
-  // Start date: 11-08-2025 00:00:00 UTC
-  const startDate = new Date(Date.UTC(2025, 7, 11, 0, 0, 0)); // month=7 because JS months are 0-indexed
-
-  // Length of one cycle in ms (14 days)
+  const startDate = new Date(Date.UTC(2025, 7, 11, 0, 0, 0)); // 11-08-2025 00:00:00 UTC (month is 0-indexed)
   const cycleLength = 14 * 24 * 60 * 60 * 1000;
-
-  // How many ms since the very first start
   const elapsed = now - startDate;
 
-  if (elapsed < 0) {
-    // Countdown hasn't started yet
+  if (elapsed < 0){
     const diff = startDate - now;
-    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const m = Math.floor((diff / (1000 * 60)) % 60);
+    const d = Math.floor(diff / (1000*60*60*24));
+    const h = Math.floor((diff / (1000*60*60)) % 24);
+    const m = Math.floor((diff / (1000*60)) % 60);
     const s = Math.floor((diff / 1000) % 60);
     el.textContent = `Starts in ${d}d ${h}h ${m}m ${s}s`;
     return;
   }
 
-  // Time into the current cycle
   const timeIntoCycle = elapsed % cycleLength;
-
-  // Time left in this cycle
   const diff = cycleLength - timeIntoCycle;
-
-  const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  const m = Math.floor((diff / (1000 * 60)) % 60);
+  const d = Math.floor(diff / (1000*60*60*24));
+  const h = Math.floor((diff / (1000*60*60)) % 24);
+  const m = Math.floor((diff / (1000*60)) % 60);
   const s = Math.floor((diff / 1000) % 60);
   el.textContent = `${d}d ${h}h ${m}m ${s}s`;
 }
-
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
-async function loadLeaderboard(apiURL = CURRENT_API_URL) {
+async function loadLeaderboard(apiURL = CURRENT_API_URL){
   const res = await fetch(apiURL);
   const data = await res.json();
+
   const top3Container = document.querySelector(".css-gqrafh");
   const rowsContainer = document.getElementById("leaderboard-rows");
   top3Container.innerHTML = '';
   rowsContainer.innerHTML = '';
+  top3Container.classList.add('podium'); // apply podium layout
 
   data.forEach((entry, index) => {
     const place = index + 1;
     const reward = index < rewards.length ? `$ ${rewards[index]}` : '$ 0';
     const wagered = `$ ${Number(entry.wagered).toLocaleString(undefined, {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
+      minimumFractionDigits: 2, maximumFractionDigits: 2
     })}`;
     const username = entry.username;
 
-    if (index < 3) {
+    if (index < 3){
+      const ranks = ["gold","silver","bronze"];
+      const labels = ["#1 • FIRST", "#2 • SECOND", "#3 • THIRD"];
+      const cls = ranks[index];
+
       const card = document.createElement('div');
-      card.className = 'css-jehefp';
-      card.style.boxShadow = top3Glows[index];
-      card.style.position = 'relative';
-      if (index === 1) card.style.transform = 'translateY(25px) scale(1.2)';
-      if (index === 2) card.style.transform = 'translateY(25px)';
+      card.className = `podium-card ${cls}`;
+      card.dataset.rank = (index + 1).toString();
+
+      const crownSVG = `
+        <svg class="crown" viewBox="0 0 24 24" fill="#FFD700" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 18h18l-1 3H4l-1-3Zm0-9 4 3 5-7 5 7 4-3v8H3v-8Z"/>
+        </svg>`;
+
       card.innerHTML = `
-        <img src="${roobetLogo}" style="width: 96px; height: auto; border-radius: 12px;">
-        <div class="css-hca0vm"><span class="css-15a1lq3" style="font-weight:bold;">${username}</span></div>
-        <div class="css-7ahevu ejrykqo0"><span class="css-1vqddgv">Wagered: </span>
-          <span class="css-18icuxn"><div class="css-1y0ox2o"><span class="css-114dvlx">${wagered}</span></div></span>
+        ${index === 0 ? crownSVG : ""}
+        <div class="rank-badge">${labels[index]}</div>
+        <div class="logo-wrap">
+          <img src="${roobetLogo}" alt="logo" style="width:100%;height:100%;object-fit:cover;">
         </div>
-        <span class="css-v4675v"><div class="css-1y0ox2o"><span class="css-114dvlx glow">${reward}</span></div></span>
+        <div class="podium-user">${username}</div>
+        <div class="wager">Wagered:&nbsp;<b>${wagered}</b></div>
+        <div class="reward-pill">${reward}</div>
       `;
       top3Container.appendChild(card);
-    } else {
-      const row = document.createElement('div');
-      row.className = 'row list row-cols-5';
-      row.setAttribute('data-v-1d580398', '');
-      row.innerHTML = `
-        <div class="hide-mobile col-2"><b style="font-size: 18px;">#${place}</b></div>
-        <div class="col-5">
-          <img src="${roobetLogo}" width="22" style="margin-right: 8px;">
-          <span style="font-weight:bold; font-size: 16px;">${username}</span>
-        </div>
-        <div class="col-2">
-          <div class="price-wrapper glow" style="font-weight:bold; font-size: 15px;">${reward}</div>
-        </div>
-        <div class="col-3">
-          <div class="price-wrapper" style="color: #FFF; font-weight:bold; font-size: 15px;">${wagered}</div>
-        </div>
-      `;
-      const wrapper = document.createElement("div");
-      wrapper.className = "leaderboard-row-wrapper";
-      wrapper.appendChild(row);
-      rowsContainer.appendChild(wrapper);
+      return;
     }
+
+    // rows for #4+
+    const row = document.createElement('div');
+    row.className = 'row list row-cols-5';
+    row.setAttribute('data-v-1d580398', '');
+    row.innerHTML = `
+      <div class="hide-mobile col-2"><b style="font-size: 18px;">#${place}</b></div>
+      <div class="col-5">
+        <img src="${roobetLogo}" width="22" style="margin-right: 8px;">
+        <span style="font-weight:bold; font-size: 16px;">${username}</span>
+      </div>
+      <div class="col-2">
+        <div class="price-wrapper glow" style="font-weight:bold; font-size: 15px;">${reward}</div>
+      </div>
+      <div class="col-3">
+        <div class="price-wrapper" style="color: #FFF; font-weight:bold; font-size: 15px;">${wagered}</div>
+      </div>
+    `;
+    const wrapper = document.createElement("div");
+    wrapper.className = "leaderboard-row-wrapper";
+    wrapper.appendChild(row);
+    rowsContainer.appendChild(wrapper);
   });
 }
 
@@ -544,7 +641,6 @@ const prevBtn = document.getElementById("prevLeaderboardBtn");
 const currBtn = document.getElementById("currentLeaderboardBtn");
 const countdownWrapper = document.getElementById("countdownWrapper");
 
-// 🔁 Toggle between current and previous
 prevBtn?.addEventListener("click", () => {
   loadLeaderboard(PREVIOUS_API_URL);
   prevBtn.style.display = "none";
@@ -553,7 +649,6 @@ prevBtn?.addEventListener("click", () => {
   countdownWrapper.style.height = "0";
   countdownWrapper.style.overflow = "hidden";
 });
-
 currBtn?.addEventListener("click", () => {
   loadLeaderboard(CURRENT_API_URL);
   currBtn.style.display = "none";
@@ -563,6 +658,5 @@ currBtn?.addEventListener("click", () => {
   countdownWrapper.style.overflow = "visible";
 });
 
-// ✅ Initial load
 loadLeaderboard();
 </script>
