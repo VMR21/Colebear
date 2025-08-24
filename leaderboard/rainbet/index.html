@@ -281,8 +281,8 @@
             <div data-v-1d580398="" class="row text">
                 <span data-v-1d580398="" class="title">
                     <div data-v-1d580398="" class="price-wrapper glow">
-                        $ 2,000
-                    </div> MONTHLY CODE <span class="glow">COLEBEAR</span> Leaderboard!
+                        $ 1,000
+                    </div> BIWEEKLY CODE <span class="glow">COLEBEAR</span> Leaderboard!
                 </span>
                 <span data-v-1d580398="" class="subtitle" style="color: #FFF;">Every <b>BET</b> on Rainbet under Code
                     <b>COLEBEAR</b>
@@ -445,16 +445,40 @@ const top3Glows = ['0 0 40px #C0C0C0', '0 0 40px #FFD700', '0 0 40px #CD7F32'];
 function updateCountdown() {
   const el = document.getElementById("countdown");
   const now = new Date();
-  const nextMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1, 0, 0, 0));
-  const target = new Date(nextMonth.getTime() - 60000); // End of current month UTC
-  const diff = target - now;
-  if (diff <= 0) return el.textContent = "Ended";
+
+  // Start date: 11-08-2025 00:00:00 UTC
+  const startDate = new Date(Date.UTC(2025, 7, 11, 0, 0, 0)); // month=7 because JS months are 0-indexed
+
+  // Length of one cycle in ms (14 days)
+  const cycleLength = 14 * 24 * 60 * 60 * 1000;
+
+  // How many ms since the very first start
+  const elapsed = now - startDate;
+
+  if (elapsed < 0) {
+    // Countdown hasn't started yet
+    const diff = startDate - now;
+    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const m = Math.floor((diff / (1000 * 60)) % 60);
+    const s = Math.floor((diff / 1000) % 60);
+    el.textContent = `Starts in ${d}d ${h}h ${m}m ${s}s`;
+    return;
+  }
+
+  // Time into the current cycle
+  const timeIntoCycle = elapsed % cycleLength;
+
+  // Time left in this cycle
+  const diff = cycleLength - timeIntoCycle;
+
   const d = Math.floor(diff / (1000 * 60 * 60 * 24));
   const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
   const m = Math.floor((diff / (1000 * 60)) % 60);
   const s = Math.floor((diff / 1000) % 60);
   el.textContent = `${d}d ${h}h ${m}m ${s}s`;
 }
+
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
